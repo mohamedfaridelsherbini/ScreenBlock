@@ -14,6 +14,8 @@ import com.mohamedfaridelsherbini.screenblock.core.permissions.PermissionManager
 import com.mohamedfaridelsherbini.screenblock.data.PreferenceManager
 import com.mohamedfaridelsherbini.screenblock.domain.FocusSessionManager
 import com.mohamedfaridelsherbini.screenblock.domain.model.FocusSessionStatus
+import com.mohamedfaridelsherbini.screenblock.domain.usecase.EndFocusUseCase
+import com.mohamedfaridelsherbini.screenblock.domain.usecase.StartFocusUseCase
 import com.mohamedfaridelsherbini.screenblock.system.FocusForegroundService
 import com.mohamedfaridelsherbini.screenblock.ui.navigation.Screen
 import com.mohamedfaridelsherbini.screenblock.ui.screens.appselection.AppSelectionScreen
@@ -32,6 +34,12 @@ class MainActivity : ComponentActivity() {
 
     @Inject
     lateinit var focusSessionManager: FocusSessionManager
+
+    @Inject
+    lateinit var startFocusUseCase: StartFocusUseCase
+
+    @Inject
+    lateinit var endFocusUseCase: EndFocusUseCase
 
     @Inject
     lateinit var permissionManager: PermissionManager
@@ -77,7 +85,7 @@ class MainActivity : ComponentActivity() {
                         HomeScreen(
                             navController = controller,
                             onStartSession = { duration ->
-                                focusSessionManager.startSession(duration)
+                                startFocusUseCase(duration)
                                 startFocusService()
                             }
                         )
@@ -92,7 +100,7 @@ class MainActivity : ComponentActivity() {
                         FocusScreen(
                             focusSessionManager = focusSessionManager,
                             onEndSession = {
-                                focusSessionManager.endSession(FocusSessionStatus.COMPLETED)
+                                endFocusUseCase(FocusSessionStatus.COMPLETED)
                                 stopFocusService()
                                 controller.navigate(Screen.Summary.route) {
                                     popUpTo(Screen.Focus.route) { inclusive = true }

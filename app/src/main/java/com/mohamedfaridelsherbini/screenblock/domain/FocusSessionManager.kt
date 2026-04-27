@@ -1,14 +1,12 @@
 package com.mohamedfaridelsherbini.screenblock.domain
 
 import com.mohamedfaridelsherbini.screenblock.data.local.FocusSessionDao
-import com.mohamedfaridelsherbini.screenblock.data.local.FocusSessionEntity
+import com.mohamedfaridelsherbini.screenblock.data.mapper.toEntity
 import com.mohamedfaridelsherbini.screenblock.domain.model.FocusSession
 import com.mohamedfaridelsherbini.screenblock.domain.model.FocusSessionStatus
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.Job
 import kotlinx.coroutines.SupervisorJob
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -19,16 +17,15 @@ import javax.inject.Singleton
 
 @Singleton
 class FocusSessionManager @Inject constructor(
-    private val focusSessionDao: FocusSessionDao
+    private val focusSessionDao: FocusSessionDao,
+    private val focusTimer: FocusTimer
 ) {
     private val scope = CoroutineScope(SupervisorJob() + Dispatchers.IO)
-    private var timerJob: Job? = null
 
     private val _currentSession = MutableStateFlow<FocusSession?>(null)
     val currentSession: StateFlow<FocusSession?> = _currentSession.asStateFlow()
 
-    private val _remainingSeconds = MutableStateFlow(0L)
-    val remainingSeconds: StateFlow<Long> = _remainingSeconds.asStateFlow()
+    val remainingSeconds: StateFlow<Long> = focusTimer.remainingSeconds
 
     fun startSession(durationMinutes: Int) {
         val session = FocusSession(
@@ -38,25 +35,17 @@ class FocusSessionManager @Inject constructor(
             status = FocusSessionStatus.ACTIVE
         )
         _currentSession.value = session
-        startTimer(durationMinutes * 60L)
-    }
-
-    private fun startTimer(seconds: Long) {
-        timerJob?.cancel()
-        _remainingSeconds.value = seconds
-        timerJob = scope.launch {
-            while (_remainingSeconds.value > 0) {
-                delay(1000)
-                _remainingSeconds.value -= 1
-            }
-            endSession(FocusSessionStatus.COMPLETED)
-        }
+        
+        focusTimer.start(
+            seconds = durationMinutes * 60L,
+            onTick = { /* Can be used for specific updates if needed */ },
+            onFinish = { endSession(FocusSessionStatus.COMPLETED) }
+        )
     }
 
     fun endSession(status: FocusSessionStatus) {
-        timerJob?.cancel()
-        timerJob = null
-
+        focusTimer.stop()
+        
         val updatedSession = _currentSession.value?.copy(
             status = status,
             endTimeMillis = System.currentTimeMillis()
@@ -81,14 +70,4 @@ class FocusSessionManager @Inject constructor(
             it.copy(blockedNotifications = it.blockedNotifications + 1)
         }
     }
-
-    private fun FocusSession.toEntity() = FocusSessionEntity(
-        id = id,
-        startTimeMillis = startTimeMillis,
-        endTimeMillis = endTimeMillis,
-        plannedDurationMinutes = plannedDurationMinutes,
-        status = status,
-        blockedAppAttempts = blockedAppAttempts,
-        blockedNotifications = blockedNotifications
-    )
 }

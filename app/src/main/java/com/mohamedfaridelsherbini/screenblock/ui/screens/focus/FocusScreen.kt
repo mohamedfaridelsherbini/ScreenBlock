@@ -18,10 +18,12 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
+import com.mohamedfaridelsherbini.screenblock.R
 import com.mohamedfaridelsherbini.screenblock.domain.FocusSessionManager
 import com.mohamedfaridelsherbini.screenblock.domain.model.EmergencyContact
 import com.mohamedfaridelsherbini.screenblock.ui.screens.appselection.AppInfo
@@ -57,7 +59,7 @@ fun FocusScreen(
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             Text(
-                text = "Focus Active",
+                text = stringResource(R.string.focus_active),
                 color = Color.White,
                 fontSize = 24.sp,
                 fontWeight = FontWeight.Bold
@@ -74,7 +76,7 @@ fun FocusScreen(
             Spacer(modifier = Modifier.height(16.dp))
             
             Text(
-                text = "Session in progress",
+                text = stringResource(R.string.session_in_progress),
                 color = Color.Gray,
                 fontSize = 18.sp
             )
@@ -82,7 +84,7 @@ fun FocusScreen(
             if (allowedApps.isNotEmpty()) {
                 Spacer(modifier = Modifier.height(48.dp))
                 Text(
-                    text = "Allowed Apps",
+                    text = stringResource(R.string.allowed_apps),
                     color = Color.White,
                     fontSize = 14.sp
                 )
@@ -100,7 +102,7 @@ fun FocusScreen(
             if (emergencyContacts.isNotEmpty()) {
                 Spacer(modifier = Modifier.height(32.dp))
                 Text(
-                    text = "Emergency Contacts",
+                    text = stringResource(R.string.emergency_contacts),
                     color = Color.White,
                     fontSize = 14.sp
                 )
@@ -122,7 +124,7 @@ fun FocusScreen(
                 colors = ButtonDefaults.buttonColors(containerColor = Color.DarkGray),
                 modifier = Modifier.padding(16.dp)
             ) {
-                Text("End Session", color = Color.White)
+                Text(stringResource(R.string.end_session), color = Color.White)
             }
         }
     }

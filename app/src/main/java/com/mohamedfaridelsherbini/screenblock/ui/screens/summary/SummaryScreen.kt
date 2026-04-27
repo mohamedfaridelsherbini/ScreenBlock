@@ -5,8 +5,10 @@ import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
+import com.mohamedfaridelsherbini.screenblock.R
 import com.mohamedfaridelsherbini.screenblock.domain.model.FocusSession
 import com.mohamedfaridelsherbini.screenblock.ui.navigation.Screen
 
@@ -18,7 +20,7 @@ fun SummaryScreen(
 ) {
     Scaffold(
         topBar = {
-            TopAppBar(title = { Text("Session Summary") })
+            TopAppBar(title = { Text(stringResource(R.string.session_summary)) })
         }
     ) { padding ->
         Column(
@@ -30,7 +32,7 @@ fun SummaryScreen(
             verticalArrangement = Arrangement.Center
         ) {
             Text(
-                text = "Well Done!",
+                text = stringResource(R.string.well_done),
                 style = MaterialTheme.typography.headlineMedium,
                 color = MaterialTheme.colorScheme.primary
             )
@@ -41,9 +43,9 @@ fun SummaryScreen(
                 colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surfaceVariant)
             ) {
                 Column(modifier = Modifier.padding(16.dp)) {
-                    StatRow("Planned Duration", "${session.plannedDurationMinutes} min")
-                    StatRow("App Blocks", "${session.blockedAppAttempts}")
-                    StatRow("Notifications Silenced", "${session.blockedNotifications}")
+                    StatRow(stringResource(R.string.planned_duration), stringResource(R.string.min_suffix, session.plannedDurationMinutes))
+                    StatRow(stringResource(R.string.app_blocks), "${session.blockedAppAttempts}")
+                    StatRow(stringResource(R.string.notifications_silenced), "${session.blockedNotifications}")
                 }
             }
             
@@ -53,7 +55,7 @@ fun SummaryScreen(
                 onClick = { navController.navigate(Screen.Home.route) { popUpTo(Screen.Home.route) { inclusive = true } } },
                 modifier = Modifier.fillMaxWidth()
             ) {
-                Text("Done")
+                Text(stringResource(R.string.done))
             }
         }
     }

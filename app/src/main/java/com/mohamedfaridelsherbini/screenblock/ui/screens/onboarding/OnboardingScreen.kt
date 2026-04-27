@@ -5,8 +5,10 @@ import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
+import com.mohamedfaridelsherbini.screenblock.R
 import com.mohamedfaridelsherbini.screenblock.core.permissions.PermissionManager
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -40,15 +42,15 @@ fun OnboardingScreen(
             verticalArrangement = Arrangement.Center
         ) {
             Text(
-                text = "Welcome to ScreenBlock",
+                text = stringResource(R.string.welcome_to_screenblock), 
                 style = MaterialTheme.typography.headlineMedium,
                 color = MaterialTheme.colorScheme.primary
             )
             Spacer(modifier = Modifier.height(32.dp))
             
             PermissionRow(
-                title = "Accessibility Service",
-                description = "Needed to detect distracting apps",
+                title = stringResource(R.string.accessibility_service_title),
+                description = stringResource(R.string.accessibility_service_desc),
                 isGranted = accessibilityEnabled,
                 onClick = { permissionManager.openAccessibilitySettings() }
             )
@@ -56,8 +58,8 @@ fun OnboardingScreen(
             Spacer(modifier = Modifier.height(16.dp))
             
             PermissionRow(
-                title = "Notification Access",
-                description = "Needed to block distractions",
+                title = stringResource(R.string.notification_access_title),
+                description = stringResource(R.string.notification_access_desc),
                 isGranted = notificationEnabled,
                 onClick = { permissionManager.openNotificationListenerSettings() }
             )
@@ -65,8 +67,8 @@ fun OnboardingScreen(
             Spacer(modifier = Modifier.height(16.dp))
 
             PermissionRow(
-                title = "Battery Optimization",
-                description = "Needed to keep focus mode active",
+                title = stringResource(R.string.battery_optimization_title),
+                description = stringResource(R.string.battery_optimization_desc),
                 isGranted = batteryOptimizationIgnored,
                 onClick = { permissionManager.requestIgnoreBatteryOptimizations() }
             )
@@ -78,7 +80,7 @@ fun OnboardingScreen(
                 enabled = accessibilityEnabled && notificationEnabled,
                 modifier = Modifier.fillMaxWidth()
             ) {
-                Text("Get Started")
+                Text(stringResource(R.string.get_started))
             }
         }
     }

@@ -10,8 +10,8 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.filled.Add
-import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.Delete
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
@@ -20,9 +20,11 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
+import com.mohamedfaridelsherbini.screenblock.R
 import com.mohamedfaridelsherbini.screenblock.domain.model.EmergencyContact
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -46,17 +48,17 @@ fun EmergencyContactScreen(
     Scaffold(
         topBar = {
             TopAppBar(
-                title = { Text("Emergency Contacts") },
+                title = { Text(stringResource(R.string.emergency_contacts)) },
                 navigationIcon = {
                     IconButton(onClick = { navController.popBackStack() }) {
-                        Icon(Icons.Default.ArrowBack, contentDescription = "Back")
+                        Icon(Icons.AutoMirrored.Filled.ArrowBack, contentDescription = stringResource(R.string.back))
                     }
                 }
             )
         },
         floatingActionButton = {
             FloatingActionButton(onClick = { contactPickerLauncher.launch(null) }) {
-                Icon(Icons.Default.Add, contentDescription = "Add Contact")
+                Icon(Icons.Default.Add, contentDescription = stringResource(R.string.add_contact))
             }
         }
     ) { padding ->
@@ -84,7 +86,7 @@ fun ContactItem(contact: EmergencyContact, onDelete: () -> Unit) {
             Text(text = contact.phoneNumber, style = MaterialTheme.typography.bodySmall)
         }
         IconButton(onClick = onDelete) {
-            Icon(Icons.Default.Delete, contentDescription = "Delete")
+            Icon(Icons.Default.Delete, contentDescription = stringResource(R.string.delete))
         }
     }
 }

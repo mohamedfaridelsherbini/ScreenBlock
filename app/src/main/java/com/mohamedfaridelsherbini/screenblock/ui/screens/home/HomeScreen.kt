@@ -9,11 +9,13 @@ import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
+import com.mohamedfaridelsherbini.screenblock.R
 import com.mohamedfaridelsherbini.screenblock.data.local.FocusSessionEntity
 import com.mohamedfaridelsherbini.screenblock.ui.navigation.Screen
 
@@ -31,10 +33,10 @@ fun HomeScreen(
     Scaffold(
         topBar = {
             TopAppBar(
-                title = { Text("ScreenBlock") },
+                title = { Text(stringResource(R.string.app_name)) },
                 actions = {
                     IconButton(onClick = { navController.navigate(Screen.AppSelection.route) }) {
-                        Icon(Icons.Default.Settings, contentDescription = "Settings")
+                        Icon(Icons.Default.Settings, contentDescription = stringResource(R.string.settings_desc))
                     }
                 }
             )
@@ -53,9 +55,9 @@ fun HomeScreen(
                 colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.primaryContainer)
             ) {
                 Column(modifier = Modifier.padding(16.dp)) {
-                    Text("Today's Focus", style = MaterialTheme.typography.titleMedium)
+                    Text(stringResource(R.string.todays_focus), style = MaterialTheme.typography.titleMedium)
                     Text(
-                        text = "$todayMinutes min",
+                        text = stringResource(R.string.min_suffix, todayMinutes),
                         style = MaterialTheme.typography.headlineLarge,
                         fontWeight = FontWeight.Bold
                     )
@@ -71,8 +73,8 @@ fun HomeScreen(
                 horizontalArrangement = Arrangement.SpaceBetween
             ) {
                 Column(modifier = Modifier.weight(1f)) {
-                    Text("Strict Mode (Locker)", style = MaterialTheme.typography.titleMedium)
-                    Text("Prevents using Home button during focus", style = MaterialTheme.typography.bodySmall)
+                    Text(stringResource(R.string.strict_mode_title), style = MaterialTheme.typography.titleMedium)
+                    Text(stringResource(R.string.strict_mode_desc), style = MaterialTheme.typography.bodySmall)
                 }
                 Switch(
                     checked = strictModeEnabled,
@@ -82,7 +84,7 @@ fun HomeScreen(
 
             Spacer(modifier = Modifier.height(24.dp))
 
-            Text("Start a Session", style = MaterialTheme.typography.titleMedium, modifier = Modifier.align(Alignment.Start))
+            Text(stringResource(R.string.start_a_session), style = MaterialTheme.typography.titleMedium, modifier = Modifier.align(Alignment.Start))
             Spacer(modifier = Modifier.height(12.dp))
 
             Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.spacedBy(8.dp)) {
@@ -97,11 +99,11 @@ fun HomeScreen(
                 onClick = { navController.navigate(Screen.EmergencyContacts.route) },
                 modifier = Modifier.fillMaxWidth()
             ) {
-                Text("Manage Emergency Contacts")
+                Text(stringResource(R.string.manage_emergency_contacts))
             }
             
             Spacer(modifier = Modifier.height(32.dp))
-            Text("History", style = MaterialTheme.typography.titleMedium, modifier = Modifier.align(Alignment.Start))
+            Text(stringResource(R.string.history), style = MaterialTheme.typography.titleMedium, modifier = Modifier.align(Alignment.Start))
             Spacer(modifier = Modifier.height(8.dp))
             
             LazyColumn(modifier = Modifier.weight(1f)) {
@@ -121,7 +123,7 @@ fun DurationButton(modifier: Modifier = Modifier, minutes: Int, onClick: () -> U
         contentPadding = PaddingValues(vertical = 12.dp)
     ) {
         Column(horizontalAlignment = Alignment.CenterHorizontally) {
-            Text(text = "$minutes", fontSize = 18.sp, fontWeight = FontWeight.Bold)
+            Text(text = minutes.toString(), fontSize = 18.sp, fontWeight = FontWeight.Bold)
             Text(text = "min", fontSize = 10.sp)
         }
     }
@@ -140,11 +142,14 @@ fun SessionHistoryItem(session: FocusSessionEntity) {
             verticalAlignment = Alignment.CenterVertically
         ) {
             Column {
-                Text("${session.plannedDurationMinutes} min Focus", style = MaterialTheme.typography.bodyLarge)
+                Text(
+                    text = stringResource(R.string.min_focus_preset, session.plannedDurationMinutes), 
+                    style = MaterialTheme.typography.bodyLarge
+                )
                 Text(session.status.name, style = MaterialTheme.typography.bodySmall)
             }
             if (session.blockedAppAttempts > 0) {
-                Badge { Text("${session.blockedAppAttempts} blocks") }
+                Badge { Text(stringResource(R.string.app_blocks) + ": ${session.blockedAppAttempts}") }
             }
         }
     }

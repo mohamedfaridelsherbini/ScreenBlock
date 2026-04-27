@@ -1,4 +1,52 @@
 <resources>
     <string name="app_name">ScreenBlock</string>
     <string name="accessibility_service_description">Used to detect and block distracting apps during focus sessions.</string>
+
+    <!-- Onboarding -->
+    <string name="welcome_to_screenblock">Welcome to ScreenBlock</string>
+    <string name="accessibility_service_title">Accessibility Service</string>
+    <string name="accessibility_service_desc">Needed to detect distracting apps</string>
+    <string name="notification_access_title">Notification Access</string>
+    <string name="notification_access_desc">Needed to block distractions</string>
+    <string name="battery_optimization_title">Battery Optimization</string>
+    <string name="battery_optimization_desc">Needed to keep focus mode active</string>
+    <string name="get_started">Get Started</string>
+
+    <!-- Home -->
+    <string name="todays_focus">Today\'s Focus</string>
+    <string name="min_suffix">%1$d min</string>
+    <string name="start_a_session">Start a Session</string>
+    <string name="manage_emergency_contacts">Manage Emergency Contacts</string>
+    <string name="history">History</string>
+    <string name="strict_mode_title">Strict Mode (Locker)</string>
+    <string name="strict_mode_desc">Prevents using Home button during focus</string>
+    <string name="min_focus_preset">%1$d min Focus</string>
+    <string name="settings_desc">Settings</string>
+
+    <!-- App Selection -->
+    <string name="select_allowed_apps">Select Allowed Apps</string>
+    <string name="search_apps">Search apps...</string>
+    <string name="back">Back</string>
+
+    <!-- Emergency Contacts -->
+    <string name="emergency_contacts">Emergency Contacts</string>
+    <string name="add_contact">Add Contact</string>
+    <string name="delete">Delete</string>
+
+    <!-- Focus -->
+    <string name="focus_active">Focus Active</string>
+    <string name="session_in_progress">Session in progress</string>
+    <string name="allowed_apps">Allowed Apps</string>
+    <string name="end_session">End Session</string>
+    <string name="focus_mode_active_notif">Focus Mode Active</string>
+    <string name="stay_focused_notif">Stay focused!</string>
+    <string name="focus_session_channel_name">Focus Session</string>
+
+    <!-- Summary -->
+    <string name="session_summary">Session Summary</string>
+    <string name="well_done">Well Done!</string>
+    <string name="planned_duration">Planned Duration</string>
+    <string name="app_blocks">App Blocks</string>
+    <string name="notifications_silenced">Notifications Silenced</string>
+    <string name="done">Done</string>
 </resources>

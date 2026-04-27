@@ -30,7 +30,7 @@ class FocusForegroundService : Service() {
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
             val channel = NotificationChannel(
                 CHANNEL_ID,
-                "Focus Session",
+                getString(R.string.focus_session_channel_name),
                 NotificationManager.IMPORTANCE_LOW
             )
             val manager = getSystemService(NotificationManager::class.java)
@@ -40,9 +40,9 @@ class FocusForegroundService : Service() {
 
     private fun createNotification(): Notification {
         return NotificationCompat.Builder(this, CHANNEL_ID)
-            .setContentTitle("Focus Mode Active")
-            .setContentText("Stay focused!")
-            .setSmallIcon(R.drawable.ic_launcher_foreground) // Use default for now
+            .setContentTitle(getString(R.string.focus_mode_active_notif))
+            .setContentText(getString(R.string.stay_focused_notif))
+            .setSmallIcon(R.drawable.ic_launcher_foreground)
             .build()
     }
 

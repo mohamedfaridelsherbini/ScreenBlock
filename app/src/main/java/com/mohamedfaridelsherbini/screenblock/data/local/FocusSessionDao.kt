@@ -16,4 +16,7 @@ interface FocusSessionDao {
 
     @Query("SELECT * FROM focus_sessions WHERE id = :id")
     suspend fun getSessionById(id: String): FocusSessionEntity?
+
+    @Query("SELECT SUM(plannedDurationMinutes) FROM focus_sessions WHERE startTimeMillis >= :sinceMillis AND status = 'COMPLETED'")
+    fun getTotalFocusMinutesSince(sinceMillis: Long): Flow<Int?>
 }

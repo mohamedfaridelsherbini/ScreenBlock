@@ -5,7 +5,6 @@ import androidx.lifecycle.viewModelScope
 import com.mohamedfaridelsherbini.screenblock.data.PreferenceManager
 import com.mohamedfaridelsherbini.screenblock.data.local.FocusSessionDao
 import com.mohamedfaridelsherbini.screenblock.data.local.FocusSessionEntity
-import com.mohamedfaridelsherbini.screenblock.domain.model.FocusSessionStatus
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
@@ -24,18 +23,9 @@ class HomeViewModel @Inject constructor(
     val recentSessions: StateFlow<List<FocusSessionEntity>> = focusSessionDao.getAllSessions()
         .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), emptyList())
 
-    val totalFocusMinutesToday: StateFlow<Int> = recentSessions.map { sessions ->
-        val today = Calendar.getInstance().apply {
-            set(Calendar.HOUR_OF_DAY, 0)
-            set(Calendar.MINUTE, 0)
-            set(Calendar.SECOND, 0)
-            set(Calendar.MILLISECOND, 0)
-        }.timeInMillis
-
-        sessions.filter { 
-            it.startTimeMillis >= today && it.status == FocusSessionStatus.COMPLETED 
-        }.sumOf { it.plannedDurationMinutes }
-    }.stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), 0)
+    val totalFocusMinutesToday: StateFlow<Int> = focusSessionDao.getTotalFocusMinutesSince(getTodayStartMillis())
+        .map { it ?: 0 }
+        .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), 0)
 
     val strictModeEnabled: StateFlow<Boolean> = preferenceManager.strictModeEnabled
         .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), true)
@@ -44,5 +34,14 @@ class HomeViewModel @Inject constructor(
         viewModelScope.launch {
             preferenceManager.setStrictModeEnabled(enabled)
         }
+    }
+
+    private fun getTodayStartMillis(): Long {
+        return Calendar.getInstance().apply {
+            set(Calendar.HOUR_OF_DAY, 0)
+            set(Calendar.MINUTE, 0)
+            set(Calendar.SECOND, 0)
+            set(Calendar.MILLISECOND, 0)
+        }.timeInMillis
     }
 }

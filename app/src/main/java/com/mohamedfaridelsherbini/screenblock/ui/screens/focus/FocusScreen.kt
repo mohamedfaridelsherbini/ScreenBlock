@@ -1,7 +1,6 @@
 package com.mohamedfaridelsherbini.screenblock.ui.screens.focus
 
 import android.content.Intent
-import android.net.Uri
 import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
@@ -17,11 +16,13 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.SolidColor
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.core.net.toUri
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.mohamedfaridelsherbini.screenblock.R
 import com.mohamedfaridelsherbini.screenblock.domain.FocusSessionManager
@@ -33,7 +34,7 @@ import java.util.Locale
 fun FocusScreen(
     focusSessionManager: FocusSessionManager,
     onEndSession: () -> Unit,
-    viewModel: FocusViewModel = hiltViewModel()
+    viewModel: FocusViewModel = hiltViewModel(),
 ) {
     val remainingSeconds by focusSessionManager.remainingSeconds.collectAsState()
     val emergencyContacts by viewModel.emergencyContacts.collectAsState()
@@ -110,7 +111,7 @@ fun FocusScreen(
                 LazyRow {
                     items(emergencyContacts) { contact ->
                         EmergencyContactItem(contact = contact) {
-                            val intent = Intent(Intent.ACTION_DIAL, Uri.parse("tel:${contact.phoneNumber}"))
+                            val intent = Intent(Intent.ACTION_DIAL, "tel:${contact.phoneNumber}".toUri())
                             context.startActivity(intent)
                         }
                     }
@@ -136,7 +137,7 @@ fun AllowedAppItem(app: AppInfo, onClick: () -> Unit) {
         onClick = onClick,
         modifier = Modifier.padding(horizontal = 8.dp),
         colors = ButtonDefaults.outlinedButtonColors(contentColor = Color.White),
-        border = ButtonDefaults.outlinedButtonBorder.copy(brush = androidx.compose.ui.graphics.SolidColor(Color.White))
+        border = ButtonDefaults.outlinedButtonBorder(enabled = true).copy(brush = SolidColor(Color.White))
     ) {
         Icon(Icons.Default.RocketLaunch, contentDescription = null, modifier = Modifier.size(16.dp))
         Spacer(modifier = Modifier.width(8.dp))
@@ -150,7 +151,7 @@ fun EmergencyContactItem(contact: EmergencyContact, onClick: () -> Unit) {
         onClick = onClick,
         modifier = Modifier.padding(horizontal = 8.dp),
         colors = ButtonDefaults.outlinedButtonColors(contentColor = Color.White),
-        border = ButtonDefaults.outlinedButtonBorder.copy(brush = androidx.compose.ui.graphics.SolidColor(Color.White))
+        border = ButtonDefaults.outlinedButtonBorder(enabled = true).copy(brush = SolidColor(Color.White))
     ) {
         Icon(Icons.Default.Phone, contentDescription = null, modifier = Modifier.size(16.dp))
         Spacer(modifier = Modifier.width(8.dp))

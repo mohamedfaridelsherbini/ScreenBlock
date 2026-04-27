@@ -43,6 +43,9 @@ class FocusForegroundService : Service() {
             .setContentTitle(getString(R.string.focus_mode_active_notif))
             .setContentText(getString(R.string.stay_focused_notif))
             .setSmallIcon(R.drawable.ic_launcher_foreground)
+            .setOngoing(true)
+            .setCategory(NotificationCompat.CATEGORY_SERVICE)
+            .setForegroundServiceBehavior(NotificationCompat.FOREGROUND_SERVICE_IMMEDIATE)
             .build()
     }
 

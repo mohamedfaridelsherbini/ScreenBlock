@@ -24,7 +24,7 @@ import com.mohamedfaridelsherbini.screenblock.ui.navigation.Screen
 fun HomeScreen(
     navController: NavController,
     onStartSession: (Int) -> Unit,
-    viewModel: HomeViewModel = hiltViewModel()
+    viewModel: HomeViewModel = hiltViewModel(),
 ) {
     val recentSessions by viewModel.recentSessions.collectAsState()
     val todayMinutes by viewModel.totalFocusMinutesToday.collectAsState()
@@ -88,9 +88,9 @@ fun HomeScreen(
             Spacer(modifier = Modifier.height(12.dp))
 
             Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.spacedBy(8.dp)) {
-                DurationButton(modifier = Modifier.weight(1f), minutes = 25, onClick = { onStartSession(25) })
-                DurationButton(modifier = Modifier.weight(1f), minutes = 50, onClick = { onStartSession(50) })
-                DurationButton(modifier = Modifier.weight(1f), minutes = 90, onClick = { onStartSession(90) })
+                DurationButton(modifier = Modifier.weight(1f), minutes = 25) { onStartSession(25) }
+                DurationButton(modifier = Modifier.weight(1f), minutes = 50) { onStartSession(50) }
+                DurationButton(modifier = Modifier.weight(1f), minutes = 90) { onStartSession(90) }
             }
 
             Spacer(modifier = Modifier.height(24.dp))

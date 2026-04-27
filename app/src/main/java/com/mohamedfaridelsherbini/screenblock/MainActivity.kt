@@ -65,21 +65,20 @@ class MainActivity : ComponentActivity() {
 
                 NavHost(
                     navController = controller,
-                    startDestination = if (onboardingCompleted == true) Screen.Home.route else Screen.Onboarding.route
+                    startDestination = if (onboardingCompleted == true) Screen.Home.route else Screen.Onboarding.route,
                 ) {
                     composable(Screen.Onboarding.route) {
                         OnboardingScreen(
                             navController = controller,
                             permissionManager = permissionManager,
-                            onComplete = {
-                                scope.launch {
-                                    preferenceManager.setOnboardingCompleted(true)
-                                }
-                                controller.navigate(Screen.Home.route) {
-                                    popUpTo(Screen.Onboarding.route) { inclusive = true }
-                                }
+                        ) {
+                            scope.launch {
+                                preferenceManager.setOnboardingCompleted(completed = true)
                             }
-                        )
+                            controller.navigate(Screen.Home.route) {
+                                popUpTo(Screen.Onboarding.route) { inclusive = true }
+                            }
+                        }
                     }
                     composable(Screen.Home.route) {
                         HomeScreen(
@@ -87,7 +86,7 @@ class MainActivity : ComponentActivity() {
                             onStartSession = { duration ->
                                 startFocusUseCase(duration)
                                 startFocusService()
-                            }
+                            },
                         )
                     }
                     composable(Screen.AppSelection.route) {
@@ -105,14 +104,14 @@ class MainActivity : ComponentActivity() {
                                 controller.navigate(Screen.Summary.route) {
                                     popUpTo(Screen.Focus.route) { inclusive = true }
                                 }
-                            }
+                            },
                         )
                     }
                     composable(Screen.Summary.route) {
                         currentSession?.let { session ->
                             SummaryScreen(
                                 session = session,
-                                navController = controller
+                                navController = controller,
                             )
                         } ?: run {
                             controller.navigate(Screen.Home.route)

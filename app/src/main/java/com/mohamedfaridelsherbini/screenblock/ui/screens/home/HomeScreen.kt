@@ -31,7 +31,7 @@ fun HomeScreen(
     Scaffold(
         topBar = {
             TopAppBar(
-                title = { Text("FocusShield") },
+                title = { Text("ScreenBlock") },
                 actions = {
                     IconButton(onClick = { navController.navigate(Screen.AppSelection.route) }) {
                         Icon(Icons.Default.Settings, contentDescription = "Settings")

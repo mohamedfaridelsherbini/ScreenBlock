@@ -1,6 +1,6 @@
-# FocusShield Design Specification
+# ScreenBlock Design Specification
 
-FocusShield's design philosophy is "Zero Distraction." The UI is optimized for AMOLED screens and cognitive focus.
+ScreenBlock's design philosophy is "Zero Distraction." The UI is optimized for AMOLED screens and cognitive focus.
 
 ## Visual Theme
 - **Dark Mode (Default)**: Pure Black (`#000000`) background for AMOLED energy efficiency and minimal visual stimulation. Uses Indigo Light and Slate for accents.

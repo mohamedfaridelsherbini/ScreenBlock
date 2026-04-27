@@ -1,6 +1,6 @@
-# FocusShield Agent Architecture
+# ScreenBlock Agent Architecture
 
-FocusShield is built using an "Agent-based" architecture where specialized controllers (Agents) handle business logic and low-level system integrations (Skills).
+ScreenBlock is built using an "Agent-based" architecture where specialized controllers (Agents) handle business logic and low-level system integrations (Skills).
 
 ## Core Agents
 
